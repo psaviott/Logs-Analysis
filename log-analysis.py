@@ -21,14 +21,14 @@ query2 = """select name, count(path)
             order by count desc;"""
 
 # Query 3: On which day did more than 1% of requests lead to errors?
-query3 = """select date(time),
+query3 = """select to_char(date, 'Mon DD, YYYY'),
                     cast((count(log.status)*100.0)/num as decimal(6,1)) as x
             from log, (select date(time), count(status) as num
                 from log
                 group by date(time)) as perc
             where date(time) = date
-            and log.status = '404 NOT FOUND'
-            group by date(time), num
+            and log.status != '200 OK'
+            group by date, num
             having count(log.status) > num/100
             order by x desc;"""
 
