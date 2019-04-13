@@ -6,7 +6,7 @@ import psycopg2
 # Query 1: What are the three most popular articles of all time?
 query1 = """select title, count(path)
             from articles
-            inner join log on ('/article/' || articles.slug like log.path)
+            inner join log on ('/article/' || articles.slug = log.path)
             group by articles.title
             order by count desc
             fetch first 3 row only;"""
@@ -15,7 +15,7 @@ query1 = """select title, count(path)
 # Query 2: Who are the most popular article authors of all time?
 query2 = """select name, count(path)
             from authors, log
-            inner join articles on ('/article/' || articles.slug like log.path)
+            inner join articles on ('/article/' || articles.slug = log.path)
             where authors.id = articles.author
             group by authors.name
             order by count desc;"""
