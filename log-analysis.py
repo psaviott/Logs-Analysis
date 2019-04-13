@@ -3,7 +3,6 @@
 import psycopg2
 
 
-# Reporting tool queries
 # Query 1: What are the three most popular articles of all time?
 query1 = """select title, count(path)
             from articles
